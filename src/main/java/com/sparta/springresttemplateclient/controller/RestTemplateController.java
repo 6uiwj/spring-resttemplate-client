@@ -20,7 +20,7 @@ public class RestTemplateController {
     }
 
     @GetMapping("/get-call-obj")
-    public com.sparta.springresttemplateclient.controller.ItemDto getCallObject(String query) {
+    public ItemDto getCallObject(String query) {
         return restTemplateService.getCallObject(query);
     }
 
