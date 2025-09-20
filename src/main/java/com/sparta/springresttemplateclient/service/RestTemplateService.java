@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +25,7 @@ public class RestTemplateService {
     public RestTemplateService(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
     }
-   
+
 
 
     public ItemDto getCallObject(String query) {
@@ -90,9 +91,26 @@ public class RestTemplateService {
     }
 
     public List<ItemDto> exchangeCall(String token) {
-        return null;
-    }
+        // 요청 URL 만들기
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://localhost:7070")
+                .path("/api/server/exchange-call")
+                .encode()
+                .build()
+                .toUri();
+        log.info("uri = " + uri);
 
+        User user = new User("Robbie", "1234");
+
+        RequestEntity<User> requestEntity = RequestEntity
+                .post(uri)
+                .header("X-Authorization", token) //헤더 넣어주기
+                .body(user);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+
+        return fromJSONtoItems(responseEntity.getBody());
+    }
 
     //json데이터 안에 items란 배열이 들어있고, items의 요소들이 json형태로 들어 있음 (중첩 json 형태)
 //    {
