@@ -100,12 +100,13 @@ public class RestTemplateService {
                 .toUri();
         log.info("uri = " + uri);
 
+        //요청 바디로 보낼 객체 생성
         User user = new User("Robbie", "1234");
 
-        RequestEntity<User> requestEntity = RequestEntity
-                .post(uri)
-                .header("X-Authorization", token) //헤더 넣어주기
-                .body(user);
+        RequestEntity<User> requestEntity = RequestEntity //요청 객체
+                .post(uri) //post요청 생성
+                .header("X-Authorization", token) //요청 헤더에 토큰 넣어주기
+                .body(user); //바디에 User 객체 추가
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
 
