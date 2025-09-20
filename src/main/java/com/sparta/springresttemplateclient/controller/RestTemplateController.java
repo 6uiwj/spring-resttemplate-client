@@ -36,6 +36,7 @@ public class RestTemplateController {
 
     //@RequestHeader("가져오고 싶은 데이터의 키")
     @GetMapping("/exchange-call")
+    //HTTP 요청 헤더에서 Authorization이라는 키를 찾아서 token이라는 변수에 담음
     public List<ItemDto> exchangeCall(@RequestHeader("Authorization") String token) {
         return restTemplateService.exchangeCall(token);
     }
